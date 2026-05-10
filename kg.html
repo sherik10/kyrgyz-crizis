@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>KG.CRISIS — СИТУАЦИОННЫЙ ЦЕНТР</title>
+    <style>
+        /* БАЗОВЫЕ СТИЛИ */
+        body { margin: 0; font-family: sans-serif; background: #f4f4f4; color: #333; line-height: 1.6; }
+        header { background: #E62117; color: white; padding: 20px 10%; text-align: center; }
+        .container { padding: 40px 10%; max-width: 1200px; margin: 0 auto; }
+        
+        /* КАРТОЧКИ ПРОБЛЕМ */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-top: 5px solid #E62117; }
+        .tag { font-size: 12px; font-weight: bold; color: #E62117; text-transform: uppercase; }
+
+        /* СИМУЛЯЦИЯ ПРОБОК */
+        .road { height: 20px; background: #ddd; position: relative; overflow: hidden; margin: 20px 0; border-radius: 10px; }
+        .car { width: 30px; height: 10px; background: #E62117; position: absolute; top: 5px; animation: drive 5s infinite linear; }
+        @keyframes drive { 0% { left: -40px; } 40% { left: 45%; } 60% { left: 45%; } 100% { left: 110%; } }
+
+        /* ФОРМА И ЛАЙКИ */
+        .form-box { background: #1a1a1a; color: white; padding: 30px; border-radius: 10px; margin-top: 40px; }
+        input, textarea, button { width: 100%; padding: 10px; margin-top: 10px; border-radius: 5px; border: none; }
+        button { background: #E62117; color: white; font-weight: bold; cursor: pointer; }
+        
+        .idea-item { background: white; padding: 15px; margin-top: 10px; border-left: 5px solid #27ae60; display: flex; justify-content: space-between; align-items: center; }
+        .like-btn { background: #eee; width: auto; color: #333; padding: 5px 15px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>КЫРГЫЗСТАН: МОНИТОРИНГ КРИЗИСОВ</h1>
+    <p>Аналитика Иссык-Куля, пробок и гражданские инициативы</p>
+</header>
+
+<div class="container">
+    <div class="grid">
+        <!-- Блок Иссык-Куля -->
+        <div class="card">
+            <span class="tag">Экология</span>
+            <h3>Обмеление Иссык-Куля</h3>
+            <p>Уровень воды падает. Решение: Внедрение капельного орошения и очистных сооружений.</p>
+        </div>
+
+        <!-- Блок Пробок -->
+        <div class="card">
+            <span class="tag">Транспорт</span>
+            <h3>Пробки в Бишкеке</h3>
+            <p>Центр парализован. Визуализация текущего затора на Чуй/Фучика:</p>
+            <div class="road">
+                <div class="car"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Форма -->
+    <div class="form-box">
+        <h3>ПРЕДЛОЖИТЬ РЕШЕНИЕ</h3>
+        <input type="text" id="name" placeholder="Ваше имя">
+        <textarea id="text" placeholder="Опишите идею..."></textarea>
+        <button onclick="addIdea()">ОПУБЛИКОВАТЬ</button>
+    </div>
+
+    <div id="ideas-list">
+        <h3>НАРОДНЫЕ ИНИЦИАТИВЫ:</h3>
+        <div class="idea-item">
+            <span><strong>Айбек:</strong> Ввести выделенные полосы для автобусов.</span>
+            <button class="like-btn" onclick="like(this)">👍 <span>12</span></button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Функция лайка
+    function like(btn) {
+        let span = btn.querySelector('span');
+        span.innerText = parseInt(span.innerText) + 1;
+        btn.style.background = "#E62117";
+        btn.style.color = "white";
+    }
+
+    // Добавление идеи
+    function addIdea() {
+        let name = document.getElementById('name').value;
+        let text = document.getElementById('text').value;
+        if(!name || !text) return alert("Заполните все поля!");
+
+        let div = document.createElement('div');
+        div.className = "idea-item";
+        div.innerHTML = `<span><strong>${name}:</strong> ${text}</span> <button class="like-btn" onclick="like(this)">👍 <span>0</span></button>`;
+        
+        document.getElementById('ideas-list').prepend(div);
+        document.getElementById('name').value = "";
+        document.getElementById('text').value = "";
+    }
+</script>
+
+</body>
+</html>
